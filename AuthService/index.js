@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
-
+const axios = require('axios');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,25 +15,26 @@ const users = [
 const JWT_SECRET = 'my_secret_key';
 
 // Login endpoint
-app.post('/login', (req, res) => {
-  // Get username and password from request body
-  const { username, password } = req.body;
-
-  // Find user in database
-  const user = users.find(u => u.username === username && u.password === password);
-
-  if (!user) {
-    // If user is not found, return an error response
-    res.status(401).json({ message: 'Invalid username or password' });
-    return;
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // Send a HTTP request to the user service to get the user by email
+    const response = await axios.get(`http://localhost:4000/buyer/getUserByEmail/${email}`);
+    const user = response.data;
+    // Check if password is correct
+    if (user.password !== password) {
+      throw new Error('Invalid password');
+    }
+    // Generate JWT token
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET);
+    // Return token in response
+    res.json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ error: 'Invalid email or password' });
   }
-
-  // Generate JWT token
-  const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, JWT_SECRET);
-
-  // Return token in response
-  res.json({ token });
 });
+
 
 // Protected endpoint
 app.get('/protected', (req, res) => {

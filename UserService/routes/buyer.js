@@ -4,6 +4,25 @@ const express = require('express');
 const router = express.Router();
 const Buyer = require('../models/buyer');
 
+
+router.get('getUserByEmail/:email', (req, res) => {
+  const email = req.params.email;
+
+  Buyer.findOne({ email }, (err, user) => {
+    if (err) {
+      return res.status(500).json({
+        error: 'Internal server error'
+      });
+    }
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found'
+      });
+    }
+    res.json({ user });
+  });
+});
+
 // GET all buyers
 router.get('/', async (req, res) => {
   try {
