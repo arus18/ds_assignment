@@ -1,0 +1,19 @@
+{
+  "name": "ds_assignment",
+  "version": "1.0.0",
+  "description": "Mono repo for ds",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": [
+    "./*Service",
+    "./Gateway"
+  ],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "^npm@9.5.0",
+  "devDependencies": {
+    "turbo": "^1.9.3"
+  }
+}
