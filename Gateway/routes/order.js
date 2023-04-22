@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const router = express.Router();
+const Config = require('../config');
 
 // Middleware
 app.use(bodyParser.json());
@@ -10,7 +11,7 @@ app.use(bodyParser.json());
 // Endpoints
 app.get('/orders', async (req, res) => {
   try {
-    const response = await axios.get('http://localhost:3000/orders');
+    const response = await axios.get(`${Config.ORDER_SERVICE}/orders`);
     res.json(response.data);
   } catch (err) {
     res.status(500).json({
@@ -22,7 +23,7 @@ app.get('/orders', async (req, res) => {
 app.get('/orders/:id', async (req, res) => {
   const orderId = req.params.id;
   try {
-    const response = await axios.get(`http://localhost:3000/orders/${orderId}`);
+    const response = await axios.get(`${Config.ORDER_SERVICE}/orders/${orderId}`);
     res.json(response.data);
   } catch (err) {
     res.status(500).json({
@@ -33,7 +34,7 @@ app.get('/orders/:id', async (req, res) => {
 
 app.post('/orders', async (req, res) => {
   try {
-    const response = await axios.post('http://localhost:3000/orders', req.body);
+    const response = await axios.post(`${Config.ORDER_SERVICE}/orders`, req.body);
     res.json(response.data);
   } catch (err) {
     res.status(400).json({
@@ -45,7 +46,7 @@ app.post('/orders', async (req, res) => {
 app.patch('/orders/:id', async (req, res) => {
   const orderId = req.params.id;
   try {
-    const response = await axios.patch(`http://localhost:3000/orders/${orderId}`, req.body);
+    const response = await axios.patch(`${Config.ORDER_SERVICE}/orders/${orderId}`, req.body);
     res.json(response.data);
   } catch (err) {
     res.status(400).json({
@@ -57,7 +58,7 @@ app.patch('/orders/:id', async (req, res) => {
 app.delete('/orders/:id', async (req, res) => {
   const orderId = req.params.id;
   try {
-    const response = await axios.delete(`http://localhost:3000/orders/${orderId}`);
+    const response = await axios.delete(`${Config.ORDER_SERVICE}/orders/${orderId}`);
     res.json(response.data);
   } catch (err) {
     res.status(500).json({

@@ -2,13 +2,14 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 const router = express.Router();
+const Config = require('../config');
 
 app.get('/login', async (req, res) => {
     try {
       const email = req.query.email;
       const password = req.query.password;
       // Send a POST request to the login endpoint of the user service
-      const response = await axios.post('http://localhost:4000/login', { email, password });
+      const response = await axios.post(`${Config.AUTH_SERVICE}/login`, { email, password });
       // Return the JWT token in the response
       res.json(response.data);
     } catch (error) {
@@ -26,7 +27,7 @@ app.get('/login', async (req, res) => {
         return;
       }
       // Send a GET request to the protected endpoint of the user service with the JWT token in the Authorization header
-      const response = await axios.get('http://localhost:4000/protected', {
+      const response = await axios.get(`${Config.AUTH_SERVICE}/protected`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
