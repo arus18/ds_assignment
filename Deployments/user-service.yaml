@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-backend
+spec:
+  replicas: 3 # number of pods
+  selector:
+    matchLabels:
+      app: user-backend
+  template:
+    metadata:
+      labels:
+        app: user-backend
+    spec:
+      containers:
+        - name: user-backend
+          image: your-docker-username/your-app-name:latest # replace with your Docker image name
+          ports:
+            - containerPort: 3000 # replace with the port your app listens on
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 3000 # replace with the port your app listens on
+      protocol: TCP
+  selector:
+    app: user-backend
