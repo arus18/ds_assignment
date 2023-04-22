@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: herbal-docker-auth-service
+  namespace: ds-assignment
+spec:
+  replicas: 3 # number of pods
+  selector:
+    matchLabels:
+      app: herbal-docker-auth-service
+  template:
+    metadata:
+      labels:
+        app: herbal-docker-auth-service
+    spec:
+      containers:
+        - name: herbal-docker-auth-service
+          image: stargazerdocker/herbal-docker-auth-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001 # replace with the port your app listens on
+          envFrom:
+            - secretRef:
+                name: mongo-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: herbal-docker-auth-service
+  namespace: ds-assignment
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 3001 # replace with the port your app listens on
+      protocol: TCP
+  selector:
+    app: herbal-docker-auth-service

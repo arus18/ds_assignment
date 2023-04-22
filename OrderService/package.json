@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "build":"docker build -t stargazerdocker/herbal-docker-order-service . && docker push stargazerdocker/herbal-docker-order-service"
+    "build":"docker build -t stargazerdocker/herbal-docker-order-service:latest . && docker push stargazerdocker/herbal-docker-order-service:latest"
   },
   "author": "Arus",
   "license": "ISC",

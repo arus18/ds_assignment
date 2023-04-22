@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: herbal-docker-order-service
+  namespace: ds-assignment
+spec:
+  replicas: 3 # number of pods
+  selector:
+    matchLabels:
+      app: herbal-docker-order-service
+  template:
+    metadata:
+      labels:
+        app: herbal-docker-order-service
+    spec:
+      containers:
+        - name: herbal-docker-order-service
+          image: stargazerdocker/herbal-docker-order-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3002 # replace with the port your app listens on
+          envFrom:
+            - secretRef:
+                name: mongo-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: herbal-docker-order-service
+  namespace: ds-assignment
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 3002 # replace with the port your app listens on
+      protocol: TCP
+  selector:
+    app: herbal-docker-order-service
