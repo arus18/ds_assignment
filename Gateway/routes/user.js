@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const Config = require('../config');
 
 // GET user by email
 router.get('/getUserByEmail/:email', async (req, res) => {
   try {
-    const response = await axios.get(`http://localhost:3000/users/getUserByEmail/${req.params.email}`);
+    const response = await axios.get(`http://${Config.USER_SERVICE}/users/getUserByEmail/${req.params.email}`);
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -15,7 +16,7 @@ router.get('/getUserByEmail/:email', async (req, res) => {
 // GET all buyers
 router.get('/buyers', async (req, res) => {
   try {
-    const response = await axios.get('http://localhost:3000/buyers/');
+    const response = await axios.get(`http://${Config.USER_SERVICE}/buyers/`);
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -25,7 +26,7 @@ router.get('/buyers', async (req, res) => {
 // GET a single buyer by ID
 router.get('/buyers/:id', async (req, res) => {
   try {
-    const response = await axios.get(`http://localhost:3000/buyers/${req.params.id}`);
+    const response = await axios.get(`http://${Config.USER_SERVICE}/buyers/${req.params.id}`);
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -35,7 +36,7 @@ router.get('/buyers/:id', async (req, res) => {
 // CREATE a new buyer
 router.post('/buyers', async (req, res) => {
   try {
-    const response = await axios.post('http://localhost:3000/buyers/', req.body);
+    const response = await axios.post(`http://${Config.USER_SERVICE}/buyers/`, req.body);
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -45,7 +46,7 @@ router.post('/buyers', async (req, res) => {
 // UPDATE an existing buyer
 router.put('/buyers/:id', async (req, res) => {
   try {
-    const response = await axios.put(`http://localhost:3000/buyers/${req.params.id}`, req.body);
+    const response = await axios.put(`http://${Config.USER_SERVICE}/buyers/${req.params.id}`, req.body);
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -55,7 +56,7 @@ router.put('/buyers/:id', async (req, res) => {
 // DELETE a buyer
 router.delete('/buyers/:id', async (req, res) => {
   try {
-    const response = await axios.delete(`http://localhost:3000/buyers/${req.params.id}`);
+    const response = await axios.delete(`http://${Config.USER_SERVICE}/buyers/${req.params.id}`);
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -65,7 +66,7 @@ router.delete('/buyers/:id', async (req, res) => {
 // GET all sellers
 router.get('/sellers', async (req, res) => {
     try {
-      const response = await axios.get('http://localhost:3000/sellers');
+      const response = await axios.get(`http://${Config.USER_SERVICE}/sellers`);
       res.json(response.data);
     } catch (err) {
       res.status(500).send(err);
@@ -75,7 +76,7 @@ router.get('/sellers', async (req, res) => {
   // GET a single seller by ID
   router.get('/sellers/:id', async (req, res) => {
     try {
-      const response = await axios.get(`http://localhost:3000/sellers/${req.params.id}`);
+      const response = await axios.get(`http://${Config.USER_SERVICE}/sellers/${req.params.id}`);
       res.json(response.data);
     } catch (err) {
       res.status(500).send(err);
@@ -85,7 +86,7 @@ router.get('/sellers', async (req, res) => {
   // CREATE a new seller
   router.post('/sellers', async (req, res) => {
     try {
-      const response = await axios.post('http://localhost:3000/sellers', req.body);
+      const response = await axios.post(`http://${Config.USER_SERVICE}/sellers`, req.body);
       res.json(response.data);
     } catch (err) {
       res.status(500).send(err);
@@ -95,7 +96,7 @@ router.get('/sellers', async (req, res) => {
   // UPDATE a seller by ID
   router.put('/sellers/:id', async (req, res) => {
     try {
-      const response = await axios.put(`http://localhost:3000/sellers/${req.params.id}`, req.body);
+      const response = await axios.put(`http://${Config.USER_SERVICE}/sellers/${req.params.id}`, req.body);
       res.json(response.data);
     } catch (err) {
       res.status(500).send(err);
@@ -105,7 +106,7 @@ router.get('/sellers', async (req, res) => {
   // DELETE a seller by ID
   router.delete('/sellers/:id', async (req, res) => {
     try {
-      const response = await axios.delete(`http://localhost:3000/sellers/${req.params.id}`);
+      const response = await axios.delete(`http://${Config.USER_SERVICE}/sellers/${req.params.id}`);
       res.json(response.data);
     } catch (err) {
       res.status(500).send(err);

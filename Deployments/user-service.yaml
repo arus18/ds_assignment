@@ -16,7 +16,7 @@ spec:
         - name: user-backend
           image: your-docker-username/your-app-name:latest # replace with your Docker image name
           ports:
-            - containerPort: 3000 # replace with the port your app listens on
+            - containerPort: 3006 # replace with the port your app listens on
 ---
 apiVersion: v1
 kind: Service
@@ -26,7 +26,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 3000 # replace with the port your app listens on
+      targetPort: 3006 # replace with the port your app listens on
       protocol: TCP
   selector:
     app: user-backend
