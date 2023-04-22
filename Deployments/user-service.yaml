@@ -1,27 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-backend
+  name: herbal-user-backend
+  namespace: ds-assignment
 spec:
   replicas: 3 # number of pods
   selector:
     matchLabels:
-      app: user-backend
+      app: herbal-user-backend
   template:
     metadata:
       labels:
-        app: user-backend
+        app: herbal-user-backend
     spec:
       containers:
-        - name: user-backend
-          image: your-docker-username/your-app-name:latest # replace with your Docker image name
+        - name: herbal-user-backend
+          image: stargazerdocker/herbal-docker-user-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3006 # replace with the port your app listens on
+          envFrom:
+            - secretRef:
+                name: mongo-secrets
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-service
+  name: herbal-user-backend
+  namespace: ds-assignment
 spec:
   type: ClusterIP
   ports:
@@ -29,4 +35,4 @@ spec:
       targetPort: 3006 # replace with the port your app listens on
       protocol: TCP
   selector:
-    app: user-backend
+    app: herbal-user-backend

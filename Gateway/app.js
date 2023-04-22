@@ -16,6 +16,11 @@ app.use('/auth', authController);
 app.use('/items', itemController);
 app.use('/orders',orderController);
 app.use('/users',userController);
+app.get("/health", (req, res) => {
+    res.json({
+        message: "i'm fine. 😊" 
+    })
+})
 //app.use('/delivery-payment',thirdPartyController);
 
 const port = process.env.PORT || 3000;

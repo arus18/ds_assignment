@@ -26,6 +26,7 @@ router.get('getUserByEmail/:email', (req, res) => {
 // GET all buyers
 router.get('/', async (req, res) => {
   try {
+    console.log("user service - /buyers hit.");
     const buyers = await Buyer.find();
     res.status(200).json(buyers);
   } catch (error) {

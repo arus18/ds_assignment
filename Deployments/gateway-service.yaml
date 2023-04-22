@@ -1,20 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-gateway
+  name: herbal-gateway-service
+  namespace: ds-assignment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-gateway
+      app: herbal-gateway-service
   template:
     metadata:
       labels:
-        app: my-gateway
+        app: herbal-gateway-service
     spec:
       containers:
         - name: my-gateway
-          image: your-docker-username/your-gateway-image:latest # replace with your Docker image name
+          image: stargazerdocker/herbal-docker-gateway-service:latest # replace with your Docker image name
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000 # replace with the port your app listens on
 
@@ -23,7 +25,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-gateway-service
+  name: herbal-gateway-service
+  namespace: ds-assignment
 spec:
   type: LoadBalancer
   ports:
@@ -31,4 +34,4 @@ spec:
       targetPort: 3000
       protocol: TCP
   selector:
-    app: my-gateway
+    app: herbal-gateway-service

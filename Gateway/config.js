@@ -1,4 +1,4 @@
-const USER_SERVICE = "http://user-service";
+const USER_SERVICE = "http://herbal-user-backend.ds-assignment";
 
 module.exports = { USER_SERVICE };
 
