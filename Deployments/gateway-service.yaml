@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-gateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-gateway
+  template:
+    metadata:
+      labels:
+        app: my-gateway
+    spec:
+      containers:
+        - name: my-gateway
+          image: your-docker-username/your-gateway-image:latest # replace with your Docker image name
+          ports:
+            - containerPort: 3000 # replace with the port your app listens on
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-gateway-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app: my-gateway
