@@ -12,10 +12,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/hello', (req, res) => {
-  res.send('Hello, World!');
-});
-
 // GET a single seller by ID
 router.get('/:id', async (req, res) => {
   try {

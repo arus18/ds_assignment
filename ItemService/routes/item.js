@@ -9,7 +9,9 @@ router.post('/', async (req, res) => {
     const savedItem = await newItem.save();
     res.status(201).json(savedItem);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({
+      message: error.message
+    });
   }
 });
 
@@ -19,7 +21,9 @@ router.get('/', async (req, res) => {
     const items = await Item.find();
     res.json(items);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message
+    });
   }
 });
 
@@ -29,7 +33,9 @@ router.get('/:id', async (req, res) => {
     if (!item) throw new Error('Item not found');
     res.json(item);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({
+      message: error.message
+    });
   }
 });
 
@@ -38,13 +44,16 @@ router.patch('/:id', async (req, res) => {
   try {
     const updatedItem = await Item.findByIdAndUpdate(
       req.params.id,
-      req.body,
-      { new: true }
+      req.body, {
+        new: true
+      }
     );
     if (!updatedItem) throw new Error('Item not found');
     res.json(updatedItem);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({
+      message: error.message
+    });
   }
 });
 
@@ -55,7 +64,9 @@ router.delete('/:id', async (req, res) => {
     if (!deletedItem) throw new Error('Item not found');
     res.json(deletedItem);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({
+      message: error.message
+    });
   }
 });
 

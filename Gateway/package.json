@@ -1,0 +1,11 @@
+{
+  "name": "gateway",
+  "version": "1.0.0",
+  "description": "Gateway service to access all services",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arus",
+  "license": "ISC"
+}
