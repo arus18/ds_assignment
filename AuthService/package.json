@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "build":"docker build -t stargazerdocker/herbal-docker-auth-service . && docker push stargazerdocker/herbal-docker-auth-service"
+    "build":"docker build -t stargazerdocker/herbal-docker-auth-service:latest . && docker push stargazerdocker/herbal-docker-auth-service:latest",
+    "deploy": "kubectl apply -f ./k8s/auth-service.yaml"
   },
   "author": "Arus",
   "license": "ISC",
