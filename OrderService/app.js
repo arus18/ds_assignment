@@ -6,7 +6,7 @@ const deliveryRoutes = require('./routes/delivery');
 const paymentRoutes = require('./routes/payment');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3004;
 
 // Set up body parser middleware
 app.use(bodyParser.json());

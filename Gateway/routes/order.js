@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const router = express.Router();
 
 // Middleware
 app.use(bodyParser.json());
@@ -65,4 +66,4 @@ app.delete('/orders/:id', async (req, res) => {
   }
 });
 
-// Start server
+module.exports = router;

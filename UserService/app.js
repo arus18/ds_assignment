@@ -24,5 +24,5 @@ app.use('/seller', sellerRoutes);
 app.use('/buyer',buyerRoutes);
 
 // Start the server
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3006;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

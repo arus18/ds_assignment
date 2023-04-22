@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
+const router = express.Router();
 
 app.get('/login', async (req, res) => {
     try {
@@ -37,4 +38,5 @@ app.get('/login', async (req, res) => {
       res.status(401).json({ message: 'Unauthorized' });
     }
   });
-  
+
+  module.exports = router;
