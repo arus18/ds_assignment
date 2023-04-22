@@ -2,15 +2,16 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 const router = express.Router();
+const Config = require('../config');
 
 app.use(express.json());
 
-const ITEM_REVIEW_API_URL = 'http://localhost:5000/itemreviews';
+const ITEM_REVIEW_API_URL = `${Config.ITEM_SERVICE}/item-reviews`;
 
 router.post('/', async (req, res) => {
   try {
     const { name, description, price } = req.body;
-    const response = await axios.post('http://localhost:4000/items', { name, description, price });
+    const response = await axios.post(`${Config.ITEM_SERVICE}/items`, { name, description, price });
     const savedItem = response.data;
     res.status(201).json(savedItem);
   } catch (error) {
@@ -21,7 +22,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-      const response = await axios.get('http://localhost:4000/items');
+      const response = await axios.get(`${Config.ITEM_SERVICE}/items`);
       const items = response.data;
       res.json(items);
     } catch (error) {
@@ -34,7 +35,7 @@ router.get('/', async (req, res) => {
   // GET single item by ID
   router.get('/:id', async (req, res) => {
     try {
-      const response = await axios.get(`http://localhost:4000/items/${req.params.id}`);
+      const response = await axios.get(`${Config.ITEM_SERVICE}/items/${req.params.id}`);
       const item = response.data;
       res.json(item);
     } catch (error) {
@@ -47,7 +48,7 @@ router.get('/', async (req, res) => {
   // CREATE new item
   router.post('/', async (req, res) => {
     try {
-      const response = await axios.post('http://localhost:4000/items', req.body);
+      const response = await axios.post(`${Config.ITEM_SERVICE}/items`, req.body);
       const savedItem = response.data;
       res.status(201).json(savedItem);
     } catch (error) {
@@ -60,7 +61,7 @@ router.get('/', async (req, res) => {
   // UPDATE item by ID
   router.patch('/:id', async (req, res) => {
     try {
-      const response = await axios.patch(`http://localhost:4000/items/${req.params.id}`, req.body);
+      const response = await axios.patch(`${Config.ITEM_SERVICE}/items/${req.params.id}`, req.body);
       const updatedItem = response.data;
       res.json(updatedItem);
     } catch (error) {
@@ -73,7 +74,7 @@ router.get('/', async (req, res) => {
   // DELETE item by ID
   router.delete('/:id', async (req, res) => {
     try {
-      const response = await axios.delete(`http://localhost:4000/items/${req.params.id}`);
+      const response = await axios.delete(`${Config.ITEM_SERVICE}/items/${req.params.id}`);
       const deletedItem = response.data;
       res.json(deletedItem);
     } catch (error) {
