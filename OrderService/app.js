@@ -28,6 +28,14 @@ app.use('/deliveries', deliveryRoutes);
 // Define routes for the payment model
 app.use('/payments', paymentRoutes);
 
+// Health endpoint
+app.get("/health", (req, res) => {
+  res.json({
+    message: "Order service is fine. 👌",
+    time: new Date()
+  })
+});
+
 // Set up error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

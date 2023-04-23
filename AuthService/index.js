@@ -59,6 +59,13 @@ app.get('/protected', (req, res) => {
   }
 });
 
+app.get("/health", (req, res) => {
+  res.json({
+    message: "Auth service is fine. 👌",
+    time: new Date()
+  })
+});
+
 app.listen(3001, () => {
   console.log('Server started on port 3000');
 });

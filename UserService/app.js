@@ -18,6 +18,12 @@ console.log("Connecting using URI - " + MONGO_URI);
 // Routes
 app.use("/seller", sellerRoutes);
 app.use("/buyer", buyerRoutes);
+app.get("/health", (req, res) => {
+  res.json({
+    message: "User service is fine. 👌",
+    time: new Date()
+  })
+});
 
 // Start the server
 const port = process.env.PORT || 3006;

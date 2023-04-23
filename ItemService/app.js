@@ -22,6 +22,12 @@ const itemRouter = require('./routes/item');
 const itemReviewController = require('./routes/itemReview');
 app.use('/items', itemRouter);
 app.use('/item-reviews', itemReviewController);
+app.get("/health", (req, res) => {
+  res.json({
+    message: "Item service is fine. 👌",
+    time: new Date()
+  })
+});
 
 const port = process.env.PORT || 3002;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
