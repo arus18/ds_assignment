@@ -36,7 +36,7 @@ router.get('/buyers/:id', async (req, res) => {
 // CREATE a new buyer
 router.post('/buyers', async (req, res) => {
   try {
-    const response = await axios.post(`${Config.USER_SERVICE}/buyers/`, req.body);
+    const response = await axios.post(`${Config.USER_SERVICE}/buyer/`, req.body);
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });

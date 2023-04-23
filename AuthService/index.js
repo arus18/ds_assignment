@@ -13,13 +13,13 @@ const users = [
 ];
 
 const JWT_SECRET = 'my_secret_key';
-const AUTH_SERVICE = "http://herbal-docker-auth-service.ds-assignment";
+const USER_SERVICE = "http://herbal-user-backend.ds-assignment.svc.cluster.local";
 // Login endpoint
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     // Send a HTTP request to the user service to get the user by email
-    const response = await axios.get(`${AUTH_SERVICE}/buyer/getUserByEmail/${email}`);
+    const response = await axios.get(`${USER_SERVICE}/buyer/getUserByEmail/${email}`);
     const user = response.data;
     // Check if password is correct
     if (user.password !== password) {
