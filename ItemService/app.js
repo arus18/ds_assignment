@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const MONGO_URI = process.env.MONGO_URI + "/itemdb";
+const MONGO_URI = process.env.MONGO_URI + "/maindb";
 const app = express();
 
 // Middleware

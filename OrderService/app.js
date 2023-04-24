@@ -7,7 +7,7 @@ const paymentRoutes = require('./routes/payment');
 
 const app = express();
 const port = process.env.PORT || 3004;
-const MONGO_URI = process.env.MONGO_URI + "/orderdb";
+const MONGO_URI = process.env.MONGO_URI + "/maindb";
 
 // Set up body parser middleware
 app.use(bodyParser.json());

@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const MONGO_URI = process.env.MONGO_URI + "/userdb";
+const MONGO_URI = process.env.MONGO_URI + "/maindb";
 
 const app = express();
 const sellerRoutes = require("./routes/seller");

@@ -7,7 +7,7 @@ const Buyer = require('../models/buyer');
 
 router.get('getUserByEmail/:email', (req, res) => {
   const email = req.params.email;
-
+  
   Buyer.findOne({ email }, (err, user) => {
     if (err) {
       return res.status(500).json({
@@ -51,6 +51,7 @@ router.post('/', async (req, res) => {
     const newBuyer = await buyer.save();
     res.status(201).json(newBuyer);
   } catch (error) {
+    console.error(error)
     res.status(400).json({ message: error.message });
   }
 });
