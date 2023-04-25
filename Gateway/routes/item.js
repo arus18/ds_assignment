@@ -10,10 +10,9 @@ const ITEM_REVIEW_API_URL = `${Config.ITEM_SERVICE}/item-reviews`;
 
 router.post('/', async (req, res) => {
   try {
-    const { name, description, price } = req.body;
-    const response = await axios.post(`${Config.ITEM_SERVICE}/items`, { name, description, price });
+    const response = await axios.post(`${Config.ITEM_SERVICE}/items`, req.body);
     const savedItem = response.data;
-    res.status(201).json(savedItem);
+    res.status(200).json(savedItem);
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: 'Failed to save item' });

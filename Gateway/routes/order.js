@@ -1,11 +1,10 @@
-const { sendEmailMiddleware } = require('./middleware/notification.js');
+const { sendEmailMiddleware } = require('../middleware/notification');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const router = express.Router();
 const Config = require('../config');
-const bodyParser = require('body-parser');
 const redis = require('redis');
 const port = 3000;
 const redisClient = redis.createClient();
