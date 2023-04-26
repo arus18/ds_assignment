@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 // Endpoints
 router.get('/orders', async (req, res) => {
   try {
-    const response = await axios.get(`${Config.ORDER_SERVICE}/orders`);
+    const response = await axios.get(`${Config.ORDER_SERVICE}/orders/`);
     res.json(response.data);
   } catch (err) {
     res.status(500).json({
@@ -40,7 +40,7 @@ router.get('/orders/:id', async (req, res) => {
 
 router.post('/orders', async (req, res) => {
   try {
-    const response = await axios.post(`${Config.ORDER_SERVICE}/orders`, req.body);
+    const response = await axios.post(`${Config.ORDER_SERVICE}/orders/`, req.body);
     res.json(response.data);
   } catch (err) {
     res.status(400).json({

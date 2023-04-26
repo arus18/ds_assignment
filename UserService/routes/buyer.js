@@ -5,7 +5,7 @@ const router = express.Router();
 const Buyer = require('../models/buyer');
 
 
-router.get('getUserByEmail/:email', (req, res) => {
+router.get('/getUserByEmail/:email', (req, res) => {
   const email = req.params.email;
   
   Buyer.findOne({ email }, (err, user) => {
