@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const EMAIL_SERVICE_URL = 'https://api.emailservice.com/send';
+const EMAIL_SERVICE_URL = 'http://localhost:3003/api';
 
 const sendEmailMiddleware = (req, res, next) => {
     const { emailType } = req.params;
@@ -29,13 +29,11 @@ const sendEmailMiddleware = (req, res, next) => {
   
     axios.post(url, data)
       .then(response => {
-        return res.json(response.data);
+        return response.data;
       })
       .catch(error => {
         console.error(error);
-        return res.status(500).json({
-          message: `An error occurred while sending email for type '${emailType}'.`,
-        });
+        return `An error occurred while sending email for type '${emailType}'.`;
       });
   };
   

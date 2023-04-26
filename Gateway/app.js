@@ -17,7 +17,7 @@ app.use("/auth", authController);
 app.use("/items", itemController);
 app.use("/orders", orderController);
 app.use("/users", userController);
-app.get("/health", async (req, res) => {
+/*app.get("/health", async (req, res) => {
   console.log("/health hit")
   let resp = [
     { service: "auth", message: false, status: "", endpoint: Config.AUTH_SERVICE },
@@ -36,7 +36,7 @@ app.get("/health", async (req, res) => {
   });
 
   res.json(lRres);
-});
+});*/
 //app.use('/delivery-payment',thirdPartyController);
 
 const port = process.env.PORT || 3000;

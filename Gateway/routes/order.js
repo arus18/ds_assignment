@@ -6,15 +6,16 @@ const axios = require('axios');
 const router = express.Router();
 const Config = require('../config');
 const redis = require('redis');
-const port = 3000;
-const redisClient = redis.createClient();
+const redisClient = redis.createClient('redis://localhost:6379');
+const subscriber = redis.createClient('redis://localhost:6379');
+
 
 
 // Middleware
 app.use(bodyParser.json());
 
 // Endpoints
-app.get('/orders', async (req, res) => {
+router.get('/orders', async (req, res) => {
   try {
     const response = await axios.get(`${Config.ORDER_SERVICE}/orders`);
     res.json(response.data);
@@ -25,7 +26,7 @@ app.get('/orders', async (req, res) => {
   }
 });
 
-app.get('/orders/:id', async (req, res) => {
+router.get('/orders/:id', async (req, res) => {
   const orderId = req.params.id;
   try {
     const response = await axios.get(`${Config.ORDER_SERVICE}/orders/${orderId}`);
@@ -37,7 +38,7 @@ app.get('/orders/:id', async (req, res) => {
   }
 });
 
-app.post('/orders', async (req, res) => {
+router.post('/orders', async (req, res) => {
   try {
     const response = await axios.post(`${Config.ORDER_SERVICE}/orders`, req.body);
     res.json(response.data);
@@ -48,7 +49,7 @@ app.post('/orders', async (req, res) => {
   }
 });
 
-app.patch('/orders/:id', async (req, res) => {
+router.patch('/orders/:id', async (req, res) => {
   const orderId = req.params.id;
   try {
     const response = await axios.patch(`${Config.ORDER_SERVICE}/orders/${orderId}`, req.body);
@@ -60,7 +61,7 @@ app.patch('/orders/:id', async (req, res) => {
   }
 });
 
-app.delete('/orders/:id', async (req, res) => {
+router.delete('/orders/:id', async (req, res) => {
   const orderId = req.params.id;
   try {
     const response = await axios.delete(`${Config.ORDER_SERVICE}/orders/${orderId}`);
@@ -72,9 +73,16 @@ app.delete('/orders/:id', async (req, res) => {
   }
 });
 
-app.post('/confirm-order', (req, res) => {
+router.post('/confirm-order',async (req, res) => {
   const orderData = req.body;
 
+  if (!redisClient.isOpen) {
+    await redisClient.connect();
+  }
+  if (!subscriber.isOpen) {
+    await subscriber.connect();
+  }
+  console.log("connected");
   // Process order confirmation request
   // Check order is confirmed or not in here
   
@@ -91,9 +99,9 @@ app.post('/confirm-order', (req, res) => {
   }
 
   // Subscribe to delivery response
-  subscriber.on('message', (channel, message) => {
-    if (channel === 'delivery-response') {
-      const deliveryData = JSON.parse(message);
+  subscriber.subscribe('delivery-response', (message) => {
+    console.log(message);
+    const deliveryData = JSON.parse(message);
       // Process delivery response and send notification
       const deliveryMessage = deliveryData.message;
       
@@ -101,10 +109,11 @@ app.post('/confirm-order', (req, res) => {
         sendEmailMiddleware({ params: { emailType: 'deliverySuccess' }, body: { buyerEmail: deliveryData.buyerEmail } });
       } else {
         sendEmailMiddleware({ params: { emailType: 'deliveryFailed' }, body: { buyerEmail: deliveryData.buyerEmail } });
-      }
-    }
-    if (channel === 'payment-response') {
-      const paymentData = JSON.parse(message);
+      } // 'message'
+  });
+  subscriber.subscribe('payment-response', (message) => {
+    console.log(message); 
+    const paymentData = JSON.parse(message);
       // Process payment response and send notification
       const paymentMessage = paymentData.message;
   
@@ -115,13 +124,8 @@ app.post('/confirm-order', (req, res) => {
         redisClient.publish('delivery-request', deliveryRequestString);
       } else {
         sendEmailMiddleware({ params: { emailType: 'paymentFailed' }, body: { buyerEmail: paymentData.buyerEmail } });
-      }
-    }
+      }// 'message'
   });
-  
-  redisClient.subscribe('delivery-response');
-  redisClient.subscribe('payment-response');
-
   res.status(200).send('Order confirmed successfully');
 });
 

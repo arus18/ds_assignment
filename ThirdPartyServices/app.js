@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const startRedisSubscriber = require('./middleware/startRedisSubscriber');
+const startRedisSubscriber = require('./middleware/thirdPartyService');
 
 // Middleware
 app.use(bodyParser.json());

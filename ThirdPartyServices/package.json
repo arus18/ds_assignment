@@ -6,11 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "build":"docker build -t stargazerdocker/herbal-docker-thirdparty-service . && docker push stargazerdocker/herbal-docker-thirdparty-service"
+    "build": "docker build -t stargazerdocker/herbal-docker-thirdparty-service . && docker push stargazerdocker/herbal-docker-thirdparty-service"
   },
   "author": "Arus",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "redis": "^4.6.5"
   }
 }
