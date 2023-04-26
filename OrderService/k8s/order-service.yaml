@@ -18,7 +18,7 @@ spec:
           image: stargazerdocker/herbal-docker-order-service:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 3002 # replace with the port your app listens on
+            - containerPort: 3004 # replace with the port your app listens on
           envFrom:
             - secretRef:
                 name: mongo-secrets
@@ -32,7 +32,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 3002 # replace with the port your app listens on
+      targetPort: 3004 # replace with the port your app listens on
       protocol: TCP
   selector:
     app: herbal-docker-order-service
