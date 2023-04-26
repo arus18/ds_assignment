@@ -4,10 +4,9 @@ const axios = require("axios");
 const router = express.Router();
 const Config = require("../config");
 
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
-    const email = req.query.email;
-    const password = req.query.password;
+    const { email, password } = req.body;
     // Send a POST request to the login endpoint of the user service
     const response = await axios.post(`${Config.AUTH_SERVICE}/login`, {
       email,
