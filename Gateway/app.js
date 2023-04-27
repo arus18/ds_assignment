@@ -12,11 +12,13 @@ const authController = require("./routes/auth");
 const itemController = require("./routes/item");
 const orderController = require("./routes/order");
 const userController = require("./routes/user");
-const thirdPartyController = require("./routes/thirdParty");
+const paymentController = require("./routes/payment");
+//const thirdPartyController = require("./routes/thirdParty");
 app.use("/auth", authController);
 app.use("/items", itemController);
 app.use("/orders", orderController);
 app.use("/users", userController);
+app.use("/payments",paymentController);
 app.get("/health", async (req, res) => {
   console.log("/health hit")
   let resp = [
