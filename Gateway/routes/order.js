@@ -86,7 +86,7 @@ router.post('/confirm-order', async (req, res) => {
 
     // Process order confirmation request
     // Check order is confirmed or not in here
-    const response = await axios.get(`/instock/${itemId}`);
+    const response = await axios.get(`${Config.ITEM_SERVICE}/items/instock/${itemId}`);
     const item = response.data;
     if (item) {
       console.log(`Item ${item.name} is in stock.`);
