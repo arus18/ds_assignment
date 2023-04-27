@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
+const Config = require('../config');
 
 const paymentsUrl = `${Config.ORDER_SERVICE}/payments/`;
 
