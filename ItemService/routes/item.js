@@ -70,4 +70,19 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+router.get('/instock/:itemId', async (req, res) => {
+  const itemId = req.params.itemId;
+  try {
+    const item = await Item.findOne({ _id: itemId, quantity: { $gt: 0 } });
+    if (item) {
+      res.json(item);
+    } else {
+      res.status(404).json({ message: 'Item not found or out of stock.' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 module.exports = router;

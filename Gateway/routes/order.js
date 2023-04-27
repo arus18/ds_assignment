@@ -72,62 +72,73 @@ router.delete('/orders/:id', async (req, res) => {
     });
   }
 });
-
-router.post('/confirm-order',async (req, res) => {
+router.post('/confirm-order', async (req, res) => {
   const orderData = req.body;
 
-  if (!redisClient.isOpen) {
-    await redisClient.connect();
-  }
-  if (!subscriber.isOpen) {
-    await subscriber.connect();
-  }
-  console.log("connected");
-  // Process order confirmation request
-  // Check order is confirmed or not in here
-  
+  try {
+    if (!redisClient.isOpen) {
+      await redisClient.connect();
+    }
+    if (!subscriber.isOpen) {
+      await subscriber.connect();
+    }
+    console.log("connected");
 
-  // Determine payment type and send payment request
-  if (orderData.paymentType === 'cash') {
-    const deliveryRequest = { orderId: orderData.orderId };
-    const deliveryRequestString = JSON.stringify(deliveryRequest);
-    redisClient.publish('delivery-request', deliveryRequestString);
-  } else {
-    const paymentRequest = { orderId: orderData.orderId };
-    const paymentRequestString = JSON.stringify(paymentRequest);
-    redisClient.publish('payment-request', paymentRequestString);
-  }
-
-  // Subscribe to delivery response
-  subscriber.subscribe('delivery-response', (message) => {
-    console.log(message);
-    const deliveryData = JSON.parse(message);
-      // Process delivery response and send notification
-      const deliveryMessage = deliveryData.message;
-      
-      if (deliveryMessage === 'Delivery successful') {
-        sendEmailMiddleware({ params: { emailType: 'deliverySuccess' }, body: { buyerEmail: deliveryData.buyerEmail } });
-      } else {
-        sendEmailMiddleware({ params: { emailType: 'deliveryFailed' }, body: { buyerEmail: deliveryData.buyerEmail } });
-      } // 'message'
-  });
-  subscriber.subscribe('payment-response', (message) => {
-    console.log(message); 
-    const paymentData = JSON.parse(message);
-      // Process payment response and send notification
-      const paymentMessage = paymentData.message;
-  
-      if (paymentMessage === 'Payment successful') {
-        sendEmailMiddleware({ params: { emailType: 'paymentSuccess' }, body: { buyerEmail: paymentData.buyerEmail } });
-        const deliveryRequest = { orderId: paymentData.orderId };
+    // Process order confirmation request
+    // Check order is confirmed or not in here
+    const response = await axios.get(`/instock/${itemId}`);
+    const item = response.data;
+    if (item) {
+      console.log(`Item ${item.name} is in stock.`);
+      if (orderData.paymentType === 'cash') {
+        const deliveryRequest = { orderId: orderData.orderId };
         const deliveryRequestString = JSON.stringify(deliveryRequest);
         redisClient.publish('delivery-request', deliveryRequestString);
       } else {
-        sendEmailMiddleware({ params: { emailType: 'paymentFailed' }, body: { buyerEmail: paymentData.buyerEmail } });
-      }// 'message'
-  });
-  res.status(200).send('Order confirmed successfully');
+        const paymentRequest = { orderId: orderData.orderId };
+        const paymentRequestString = JSON.stringify(paymentRequest);
+        redisClient.publish('payment-request', paymentRequestString);
+      }
+  
+      // Subscribe to delivery response
+      subscriber.subscribe('delivery-response', (message) => {
+        console.log(message);
+        const deliveryData = JSON.parse(message);
+        // Process delivery response and send notification
+        const deliveryMessage = deliveryData.message;
+  
+        if (deliveryMessage === 'Delivery successful') {
+          sendEmailMiddleware({ params: { emailType: 'deliverySuccess' }, body: { buyerEmail: deliveryData.buyerEmail } });
+        } else {
+          sendEmailMiddleware({ params: { emailType: 'deliveryFailed' }, body: { buyerEmail: deliveryData.buyerEmail } });
+        } // 'message'
+      });
+      subscriber.subscribe('payment-response', (message) => {
+        console.log(message);
+        const paymentData = JSON.parse(message);
+        // Process payment response and send notification
+        const paymentMessage = paymentData.message;
+  
+        if (paymentMessage === 'Payment successful') {
+          sendEmailMiddleware({ params: { emailType: 'paymentSuccess' }, body: { buyerEmail: paymentData.buyerEmail } });
+          const deliveryRequest = { orderId: paymentData.orderId };
+          const deliveryRequestString = JSON.stringify(deliveryRequest);
+          redisClient.publish('delivery-request', deliveryRequestString);
+        } else {
+          sendEmailMiddleware({ params: { emailType: 'paymentFailed' }, body: { buyerEmail: paymentData.buyerEmail } });
+        } // 'message'
+      });
+      res.status(200).send('Order confirmed successfully');
+    } else {
+      res.status(200).send('Item is out of stock');
+    }
+    // Determine payment type and send payment request
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error confirming order');
+  }
 });
+
 
 
 module.exports = router;
