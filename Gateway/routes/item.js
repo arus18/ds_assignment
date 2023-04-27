@@ -72,7 +72,7 @@ router.get('/', async (req, res) => {
   });
   
   // DELETE item by ID
-  router.post('/:id', async (req, res) => {
+  router.post('/delete/:id', async (req, res) => {
     try {
       console.log("item delete hit")
       const response = await axios.delete(`${Config.ITEM_SERVICE}/items/${req.params.id}`);
