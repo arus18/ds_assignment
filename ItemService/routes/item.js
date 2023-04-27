@@ -60,6 +60,7 @@ router.patch('/:id', async (req, res) => {
 // DELETE
 router.delete('/:id', async (req, res) => {
   try {
+    console.log("item-service delete hit");
     const deletedItem = await Item.findByIdAndDelete(req.params.id);
     if (!deletedItem) throw new Error('Item not found');
     res.json(deletedItem);
