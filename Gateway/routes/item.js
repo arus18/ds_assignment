@@ -97,6 +97,7 @@ router.get('/', async (req, res) => {
     }
   });
   
+//View Item Reviews
   router.get('/itemreviews', async (req, res) => {
     try {
       const response = await axios.get(`${ITEM_REVIEW_API_URL}`);
