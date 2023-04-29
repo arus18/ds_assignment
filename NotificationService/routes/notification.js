@@ -35,7 +35,7 @@ function sendEmail(to, subject, text) {
   });
 }
 
-// Endpoint for order confirmed
+// Endpoint for order confirmed.
 router.post('/orderConfirmed', (req, res) => {
   const { buyerEmail } = req.body;
   const subject = 'Order Confirmed';
