@@ -8,6 +8,7 @@ app.use(express.json());
 
 const ITEM_REVIEW_API_URL = `${Config.ITEM_SERVICE}/item-reviews`;
 
+//Create Item
 router.post('/', async (req, res) => {
   try {
     const response = await axios.post(`${Config.ITEM_SERVICE}/items`, req.body);
