@@ -107,6 +107,7 @@ router.get('/', async (req, res) => {
     }
   });
   
+//View Single Item Review
   router.get('/itemreviews/:id', async (req, res) => {
     try {
       const response = await axios.get(`${ITEM_REVIEW_API_URL}/${req.params.id}`);
