@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
-// Extracted sendEmail function
+// Extracted sendEmail function.
 function sendEmail(to, subject, text) {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
